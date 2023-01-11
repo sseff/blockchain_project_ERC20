@@ -48,9 +48,9 @@ const Wallet = () => {
         //get the contract
         let tempContract = new ethers.Contract(contractAddress, simple_token_abi, tempSigner);
 
-        setProvider = tempProvider;
-        setSigner = tempSigner;
-        setContract = tempContract;
+        setProvider(tempProvider);
+        setSigner(tempSigner);
+        setContract(tempContract);
     }
 
     // anytime the contract object changes, we run this
@@ -62,7 +62,7 @@ const Wallet = () => {
     }, [contract])
 
     const updateBalance = async () => {
-        //await because this is a promise
+        // await because this is a promise
         let balanceBigNumber = await contract.balanceof(defaultAccount);
         let balanceNumber = balanceBigNumber.toNumber();
         let decimals = await contract.decimals();
@@ -76,7 +76,7 @@ const Wallet = () => {
 
     return (
         <div>
-            <h1>{tokenName} + "ERC-20</h1>
+            <h1>{tokenName} + ERC-20</h1>
             <button className={styles.button6} onClick={connectWalletHandler}>{connectButtonName}</button>
             <div className={styles.walletCard}>
                 <div>
