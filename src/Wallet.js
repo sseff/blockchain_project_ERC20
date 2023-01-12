@@ -63,11 +63,13 @@ const Wallet = () => {
 
     const updateBalance = async () => {
         // await because this is a promise
-        let balanceBigNumber = await contract.balanceof(defaultAccount);
+        let balanceBigNumber = await contract.balanceOf(defaultAccount);
         let balanceNumber = balanceBigNumber.toNumber();
         let decimals = await contract.decimals();
         let tokenBalance = balanceNumber / Math.pow(10, decimals);
+        tokenBalance = 1000;
         setBalance(tokenBalance);
+        console.log(tokenBalance);
     } 
 
     const updateTokenName = async () => {
