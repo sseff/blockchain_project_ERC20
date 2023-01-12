@@ -2,7 +2,6 @@ import {React, useState, useEffect} from 'react'
 import {ethers} from 'ethers'
 import styles from './Wallet.module.css'
 
-
 const Interactions = (props) => {
     const [transferHash, setTransferHash] = useState(null);
     const transferHandler = async (e) => {
@@ -13,7 +12,6 @@ const Interactions = (props) => {
         let txt = await props.contract.transfer(receiverAddress, transferAmount);
         setTransferHash(txt.hash);
     }
-
 
     return (
         <div className={styles.interactionsCard}>
