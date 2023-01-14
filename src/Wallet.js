@@ -8,7 +8,7 @@ import simple_token_abi from './Contracts/simple_token_abi.json'
 
 const Wallet = () => {
     // deployed contract address, ganache-clib address
-    const contractAddress = '0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8';
+    const contractAddress = '0xd507c52A6E48304BCaa8c5C00BCA338C0F582d02';
     const [tokenName, setTokenName] = useState("Token");
     const [connectButtonName, setConnectButtonName] = useState("Connect");
     const [error, setError] = useState(null);
@@ -33,6 +33,16 @@ const Wallet = () => {
             console.log("You need to install MetaMask!");
             setError("MetaMask is not installed.")
         }
+    }
+
+    //i can click on the button only once
+    //then it doesn't work again even if i refresh
+    //MetaMask - RPC Error: Internal JSON-RPC error. {code: -32603, message: 'Internal JSON-RPC error.', data: {…}}
+    const faucetHandler = async () => {
+        contract.faucet();
+        //wait for 2 seconds and then update balance
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        updateBalance();
     }
 
     const accountChangedHandler = (newAddress) => {
@@ -65,11 +75,9 @@ const Wallet = () => {
         // await because this is a promise
         let balanceBigNumber = await contract.balanceOf(defaultAccount);
         let balanceNumber = balanceBigNumber.toNumber();
-        let decimals = await contract.decimals();
-        let tokenBalance = balanceNumber / Math.pow(10, decimals);
-        tokenBalance = 1000;
-        setBalance(tokenBalance);
-        console.log(tokenBalance);
+        // tokenBalance = 1000;
+        setBalance(balanceNumber);
+        console.log("balanceNumber: ", balanceNumber);
     } 
 
     const updateTokenName = async () => {
@@ -84,6 +92,7 @@ const Wallet = () => {
                 <div>
                     <h2>Address: {defaultAccount}</h2>
                 </div>
+                <button className={styles.button6} onClick={faucetHandler}>Faucet</button>
                 <div>
                     <h2>{tokenName} Balance: {balance}</h2>
                 </div>

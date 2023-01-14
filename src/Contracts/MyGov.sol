@@ -574,6 +574,10 @@ contract MyGov is ERC20 {
         }
         return (numtaken, results);
     }
+
+    function decimals() public view virtual override returns (uint8) {
+        return 0;
+    }
  
     /*
     *   Overrides the transfer function in the ERC20 contract because of the rule that

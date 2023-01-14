@@ -17,16 +17,19 @@ const Interactions = (props) => {
         <div className={styles.interactionsCard}>
             {/* take the address and amount to transfer */}
             <form onSubmit={transferHandler}>
-                <h2>Transfer ...</h2>
-                <p>receiver address</p>
+                <h3>Transfer MyGov Token:</h3>
+                <p>receiver address:</p>
                 <input type='text' id='receiverAddress'/>
-                <p>send amount</p>
+                <p>transfer amount:</p>
                 <input type='number' id='sendAmount' min='0'/>
                 <button type='submit' className={styles.button6}>Send</button>
                 <div>
                     {transferHash}
                 </div>
             </form>
+            {/* <form onSubmit={noOfProjectProposalsViewer}>
+                <button type='submit' className={styles.button6}>Proposals Count</button>
+            </form> */}
         </div>
     );
 
