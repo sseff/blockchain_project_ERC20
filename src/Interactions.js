@@ -48,6 +48,29 @@ const Interactions = (props) => {
 
     }
 
+    const isProjectFundedViewer = async (e) => {
+    }
+    const ProjectNextPaymentViewer = async (e) => {
+    }
+    const ProjectOwnerViewer = async (e) => {
+    }
+    const ProjectInfoViewer = async (e) => {
+    }
+    const noOfFundedProposalsViewer = async (e) => {
+    }
+    const etherReceivedByProjectViewer = async (e) => {
+    }
+    const noOfSurveysViewer = async (e) => {
+    }
+    const noOfMembersViewer = async (e) => {
+    }
+    const SurveyOwnerViewer = async (e) => {
+    }
+    const SurveyInfoViewer = async (e) => {
+    }
+    const SurveyResultsViewer = async (e) => {
+    }
+
     return (
         <div className={styles.interactionsCard}>
             {/* take the address and amount to transfer */}
@@ -99,51 +122,51 @@ const Interactions = (props) => {
 
             <h3>View Functions:</h3>
             <form onSubmit={isProjectFundedViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={ProjectNextPaymentViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={ProjectOwnerViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={ProjectInfoViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={noOfProjectProposalsViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={noOfFundedProposalsViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={etherReceivedByProjectViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={noOfSurveysViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={noOfMembersViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={SurveyOwnerViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={SurveyInfoViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
             <form onSubmit={SurveyResultsViewer}>
-                <button type='submit' className={styles.button6}>Proposals Count</button>
+                <button type='submit' className={styles.button6}>✔</button>
                 <a>  {noOfProjectProposals}</a>
             </form>
 
