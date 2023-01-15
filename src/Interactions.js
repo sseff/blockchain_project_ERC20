@@ -21,10 +21,13 @@ const Interactions = (props) => {
     const [surveyowner, setSurveyowner] = useState(null);
     const [memberNumber, setMemberNumber] = useState(null);
 
+    const GL = 250000;
+    const glOverride = {gasLimit:GL};
+
     const donateEtherHandler = async (e) => {
         e.preventDefault();
         let amount = e.target.donateEtherAmount.value;
-        let tx = await props.contract.donateEther({value:amount});
+        let tx = await props.contract.donateEther({value:amount, gasLimit:GL});
         console.log(tx.hash);
 
     }
@@ -33,7 +36,7 @@ const Interactions = (props) => {
         let transferAmount = e.target.sendAmount.value;
         let receiverAddress = e.target.receiverAddress.value;
 
-        let txt = await props.contract.transfer(receiverAddress, transferAmount);
+        let txt = await props.contract.transfer(receiverAddress, transferAmount, glOverride);
         setTransferHash(txt.hash);
     }
 
@@ -54,7 +57,7 @@ const Interactions = (props) => {
 
         let amount = e.target.submitProposalEtherAmount.value;
         console.log(ipfshash, deadline, paymentamounts, payschedule, amount);
-        let tx = await props.contract.submitProjectProposal(ipfshash, deadline, paymentamounts, payschedule, {value:amount, gasLimit: 250000});
+        let tx = await props.contract.submitProjectProposal(ipfshash, deadline, paymentamounts, payschedule, {value:amount, gasLimit: GL});
         console.log(tx);
 
     }
@@ -64,7 +67,7 @@ const Interactions = (props) => {
         let address = e.target.address.value;
         let id = e.target.id.value;
 
-        await props.contract.delegateVoteTo(address, id, {gasLimit:250000});
+        await props.contract.delegateVoteTo(address, id, glOverride);
     }
 
     const submitSurveyHandler = async (e) => {
@@ -75,9 +78,51 @@ const Interactions = (props) => {
         let atmost = parseInt(e.target.atmostchoices.value);
         let amount = e.target.amount.value;
         console.log(ipfshash, deadline, numchoices, atmost, amount);
-        let tx = await props.contract.submitSurvey(ipfshash, deadline, numchoices, atmost, {value:amount, gasLimit: 250000});
+        let tx = await props.contract.submitSurvey(ipfshash, deadline, numchoices, atmost, {value:amount, gasLimit: GL});
         console.log(tx);
     }
+
+    const voteForProposalHandler = async (e) => {
+        e.preventDefault();
+
+        let id = e.target.id.value;
+        let vote = e.target.vote.value;
+        let Vote = false;
+        if(vote == 1){
+            Vote = true;
+        }
+        await props.contract.voteForProjectProposal(id, Vote, glOverride);
+    }
+    const voteForPaymentHandler = async (e) => {
+        e.preventDefault();
+
+        let id = e.target.id.value;
+        let vote = e.target.vote.value;
+        let Vote = false;
+        if(vote == 1){
+            Vote = true;
+        }
+        await props.contract.voteForProjectPayment(id, Vote, glOverride);
+    }
+
+    const takeSurveyHandler = async (e) => {
+        e.preventDefault();
+        let id = e.target.id.value;
+        let choices = e.target.choices.value.split(",").map(Number);
+        console.log(choices);
+        await props.contract.takeSurvey(id, choices, glOverride);
+    }
+    const reserveGrantHandler = async (e) => {
+        e.preventDefault();
+        let id = e.target.id.value;
+        await props.contract.reserveProjectGrant(id, glOverride);
+    }
+    const withdrawPaymentHandler = async (e) => {
+        e.preventDefault();
+        let id = e.target.id.value;
+        await props.contract.withdrawProjectPayment(id, glOverride);
+    }
+
 
     const isProjectFundedViewer = async (e) => {
         e.preventDefault();
@@ -270,6 +315,67 @@ const Interactions = (props) => {
                 <h3>Delegate Vote To:</h3>
                 <a>Member Address:</a>
                 <input type='text' id='address'/>
+                <a><br></br></a>
+                <a>Project ID:</a>
+                <input type='number' id='id'/>
+                <a><br></br></a>
+                <button type='submit' className={styles.button6}>Submit</button>
+                {/* <a>  response**</a> */}
+            </form>
+
+            <form onSubmit={voteForProposalHandler}>
+                <h3>Vote For Project Proposal:</h3>
+                <a><br></br></a>
+                <a>Project ID:</a>
+                <input type='number' id='id'/>
+                <a>Vote:</a>
+
+                {/* <div onChange={this.onChangeValue}>
+                    <input type="radio" value="Yes" id="vote" />Yes
+                    <input type="radio" value="No" id="vote" />No
+                </div> */}
+
+                <input type='number' id='vote'/>
+                <a><br></br></a>
+                <button type='submit' className={styles.button6}>Submit</button>
+                {/* <a>  response**</a> */}
+            </form>
+
+            <form onSubmit={voteForPaymentHandler}>
+                <h3>Vote For Project Payment:</h3>
+                <a><br></br></a>
+                <a>Project ID:</a>
+                <input type='number' id='id'/>
+                <a>Vote:</a>
+                <input type='number' id='vote'/>
+                <a><br></br></a>
+                <button type='submit' className={styles.button6}>Submit</button>
+                {/* <a>  response**</a> */}
+            </form>
+
+            <form onSubmit={takeSurveyHandler}>
+                <h3>Take Survey:</h3>
+                <a><br></br></a>
+                <a>Survey ID:</a>
+                <input type='number' id='id'/>
+                <a>Choices:</a>
+                <input type='text' id='choices'/>
+                <button type='submit' className={styles.button6}>Submit</button>
+                {/* <a>  response**</a> */}
+            </form>
+
+            <form onSubmit={reserveGrantHandler}>
+                <h3>Reserve Project Grant:</h3>
+                <a><br></br></a>
+                <a>Project ID:</a>
+                <input type='number' id='id'/>
+                <a><br></br></a>
+                <button type='submit' className={styles.button6}>Submit</button>
+                {/* <a>  response**</a> */}
+            </form>
+
+            <form onSubmit={withdrawPaymentHandler}>
+                <h3>Withdraw Project Payment:</h3>
                 <a><br></br></a>
                 <a>Project ID:</a>
                 <input type='number' id='id'/>
