@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react'
-import {ethers} from 'ethers'
+import {BigNumber, ethers} from 'ethers'
 import styles from './Wallet.module.css'
 
 const Interactions = (props) => {
@@ -8,8 +8,8 @@ const Interactions = (props) => {
     const [projectNextPayment, setprojectNextPayment] = useState(null);
     const [projectOwner, setprojectOwner] = useState(null);
     const [projectHash, setprojectHash] = useState(null);
-    const [projectPaySchedule, setprojectPaySchedule] = useState(null);
-    const [projectPaymentAmounts, setprojectPaymentAmounts] = useState(null);
+    const [projectPaySchedule, setprojectPaySchedule] = useState([null]);
+    const [projectPaymentAmounts, setprojectPaymentAmounts] = useState([null]);
     const [projectVoteDeadline, setprojectVoteDeadline] = useState(null);
     const [noOfProjectProposals, setnoOfProjectProposals] = useState(null);
     const [noOfFundedProposals, setnoOfFundedProposals] = useState(null);
@@ -21,7 +21,13 @@ const Interactions = (props) => {
     const [surveyowner, setSurveyowner] = useState(null);
     const [memberNumber, setMemberNumber] = useState(null);
 
+    const donateEtherHandler = async (e) => {
+        e.preventDefault();
+        let amount = e.target.donateEtherAmount.value;
+        let tx = await props.contract.donateEther({value:amount});
+        console.log(tx.hash);
 
+    }
     const transferHandler = async (e) => {
         e.preventDefault();
         let transferAmount = e.target.sendAmount.value;
@@ -36,24 +42,41 @@ const Interactions = (props) => {
         let ipfshash = e.target.ipfshash.value;
         let deadline = e.target.deadline.value;
         deadline = parseInt(deadline);
-        let paymentamounts = e.target.paymentamounts.value.split(",").map(function(item) {
-            return parseInt(item, 10);
-        });
-        let paymentdeadlines = e.target.paymentdeadlines.value.split(",").map(function(item) {
-            return parseInt(item, 10);
-        });
+        let paymentamounts = e.target.paymentamounts.value.split(",");
+        let payschedule = e.target.paymentdeadlines.value.split(",");
+        for(var i =0; i < paymentamounts.length; i++){
+            paymentamounts[i] = BigNumber.from(paymentamounts[i]);
+        }
+        for(var i =0; i < payschedule.length; i++){
+            payschedule[i] = BigNumber.from(payschedule[i]);
+        }
+        console.log(paymentamounts, payschedule);
+
         let amount = e.target.submitProposalEtherAmount.value;
-        console.log(ipfshash, deadline, paymentamounts, paymentdeadlines, amount);
-        let tx = await props.contract.submitProjectProposal(ipfshash, deadline, paymentamounts, paymentdeadlines, {value:amount});
+        console.log(ipfshash, deadline, paymentamounts, payschedule, amount);
+        let tx = await props.contract.submitProjectProposal(ipfshash, deadline, paymentamounts, payschedule, {value:amount, gasLimit: 250000});
         console.log(tx);
 
     }
-    const donateEtherHandler = async (e) => {
-        e.preventDefault();
-        let amount = e.target.donateEtherAmount.value;
-        let tx = await props.contract.donateEther({value:amount});
-        console.log(tx.hash);
 
+    const delegateVoteToHandler = async (e) => {
+        e.preventDefault();
+        let address = e.target.address.value;
+        let id = e.target.id.value;
+
+        await props.contract.delegateVoteTo(address, id, {gasLimit:250000});
+    }
+
+    const submitSurveyHandler = async (e) => {
+        e.preventDefault();
+        let ipfshash = e.target.ipfshash.value;
+        let deadline = parseInt(e.target.deadline.value);
+        let numchoices = parseInt(e.target.numchoices.value);
+        let atmost = parseInt(e.target.atmostchoices.value);
+        let amount = e.target.amount.value;
+        console.log(ipfshash, deadline, numchoices, atmost, amount);
+        let tx = await props.contract.submitSurvey(ipfshash, deadline, numchoices, atmost, {value:amount, gasLimit: 250000});
+        console.log(tx);
     }
 
     const isProjectFundedViewer = async (e) => {
@@ -174,6 +197,14 @@ const Interactions = (props) => {
 
     return (
         <div className={styles.interactionsCard}>
+            <form onSubmit={donateEtherHandler}>
+                <h3>Donate Ethers:</h3>   
+                <a>Ether Amount in Wei:</a>
+                <input type='number' id='donateEtherAmount'/>
+                <button type='submit' className={styles.button6}>Donate</button>
+            </form>
+
+
             {/* take the address and amount to transfer */}
             <form onSubmit={transferHandler}>
                 <h3>Transfer MyGov Token:</h3>
@@ -213,18 +244,46 @@ const Interactions = (props) => {
                 <button type='submit' className={styles.button6}>Submit</button>
                 {/* <a>  response**</a> */}
             </form>
+            <form onSubmit={submitSurveyHandler}>
+                <h3>Submit Survey:</h3>
+                <a>IPFS Hash:</a>
+                <input type='text' id='ipfshash'/>
+                <a><br></br></a>
+                <a>Survey Deadline:</a>
+                <input type='number' id='deadline'/>
+                <a><br></br></a>
+                <a>Number of Choices:</a>
+                <input type='number' id='numchoices'/>
+                <a><br></br></a>
+                <a>At Most Choices:</a>
+                <input type='number' id='atmostchoices'/>
+                <a><br></br></a>
 
-            <form onSubmit={donateEtherHandler}>
-                <h3>Donate Ethers:</h3>   
                 <a>Ether Amount in Wei:</a>
-                <input type='number' id='donateEtherAmount'/>
-                <button type='submit' className={styles.button6}>Donate</button>
+                <input type='number' id='amount'/>
+                <a><br></br></a>
+                <button type='submit' className={styles.button6}>Submit</button>
+                {/* <a>  response**</a> */}
+            </form>
+
+            <form onSubmit={delegateVoteToHandler}>
+                <h3>Delegate Vote To:</h3>
+                <a>Member Address:</a>
+                <input type='text' id='address'/>
+                <a><br></br></a>
+                <a>Project ID:</a>
+                <input type='number' id='id'/>
+                <a><br></br></a>
+                <button type='submit' className={styles.button6}>Submit</button>
+                {/* <a>  response**</a> */}
             </form>
 
 
 
 
 
+
+            <div>
             <h3>View Functions:</h3>
             <form onSubmit={isProjectFundedViewer}>
                 <a>See if a project is funded by giving its project id:</a>
@@ -296,6 +355,7 @@ const Interactions = (props) => {
                 <a><br></br>{surveyResults}</a>
             </form>
 
+        </div>
         </div>
     );
 
