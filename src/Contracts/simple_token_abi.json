@@ -2,29 +2,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "afterTokenTransfer",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "uint256",
 				"name": "tokensupply",
 				"type": "uint256"
@@ -143,47 +120,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "beforeTokenTransfer",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "burn",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "spender",
 				"type": "address"
 			},
@@ -282,53 +218,12 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "mint",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "uint256",
 				"name": "projectid",
 				"type": "uint256"
 			}
 		],
 		"name": "reserveProjectGrant",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "spendAllowance",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -398,6 +293,24 @@
 				"type": "uint256"
 			}
 		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "choices",
+				"type": "uint256[]"
+			}
+		],
+		"name": "takeSurvey",
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -747,6 +660,83 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			}
+		],
+		"name": "getSurveyInfo",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "ipfshash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "surveydeadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "numchoices",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "atmostchoice",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			}
+		],
+		"name": "getSurveyOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "surveyowner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			}
+		],
+		"name": "getSurveyResults",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "numtaken",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "results",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "name",
 		"outputs": [
@@ -769,11 +759,6 @@
 		],
 		"name": "proposals",
 		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "projectid",
-				"type": "uint256"
-			},
 			{
 				"internalType": "string",
 				"name": "ipfsHash",
@@ -843,11 +828,6 @@
 		],
 		"name": "surveys",
 		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "surveyId",
-				"type": "uint256"
-			},
 			{
 				"internalType": "string",
 				"name": "ipfsHash",
@@ -931,6 +911,11 @@
 			{
 				"internalType": "bool",
 				"name": "tookFreeToken",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "tookPartInSurvey",
 				"type": "bool"
 			}
 		],
