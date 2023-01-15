@@ -21,7 +21,7 @@ const Interactions = (props) => {
     const [surveyowner, setSurveyowner] = useState(null);
     const [memberNumber, setMemberNumber] = useState(null);
 
-    const GL = 250000;
+    const GL = 550000;
     const glOverride = {gasLimit:GL};
 
     const donateEtherHandler = async (e) => {
@@ -44,17 +44,8 @@ const Interactions = (props) => {
         e.preventDefault();
         let ipfshash = e.target.ipfshash.value;
         let deadline = e.target.deadline.value;
-        deadline = parseInt(deadline);
-        let paymentamounts = e.target.paymentamounts.value.split(",");
-        let payschedule = e.target.paymentdeadlines.value.split(",");
-        for(var i =0; i < paymentamounts.length; i++){
-            paymentamounts[i] = BigNumber.from(paymentamounts[i]);
-        }
-        for(var i =0; i < payschedule.length; i++){
-            payschedule[i] = BigNumber.from(payschedule[i]);
-        }
-        console.log(paymentamounts, payschedule);
-
+        let paymentamounts = e.target.paymentamounts.value.split(",").map(Number);
+        let payschedule = e.target.paymentdeadlines.value.split(",").map(Number);
         let amount = e.target.submitProposalEtherAmount.value;
         console.log(ipfshash, deadline, paymentamounts, payschedule, amount);
         let tx = await props.contract.submitProjectProposal(ipfshash, deadline, paymentamounts, payschedule, {value:amount, gasLimit: GL});
@@ -146,6 +137,8 @@ const Interactions = (props) => {
         }
         else{
             tx = await props.contract.getProjectNextPayment(id);
+            tx = tx.toNumber();
+            console.log(tx);
         }
         setprojectNextPayment(tx);
     }

@@ -587,6 +587,14 @@ contract MyGov is ERC20 {
         address voter = msg.sender;
 
         if(proposalCount == 0){
+            
+            if(balanceOf(voter) == amount && balanceOf(to) > 0){
+                memberCount--;
+            }
+            
+            if(balanceOf(to) == 0 && balanceOf(voter) > amount){
+                memberCount++;
+            }
             return super.transfer(to, amount);
         }
         else {
