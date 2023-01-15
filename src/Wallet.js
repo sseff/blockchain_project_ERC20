@@ -8,7 +8,7 @@ import simple_token_abi from './Contracts/simple_token_abi.json'
 
 const Wallet = () => {
     // deployed contract address, ganache-clib address
-    const contractAddress = '0xd507c52A6E48304BCaa8c5C00BCA338C0F582d02';
+    const contractAddress = '0xe206b443EBA1159A1cc24b91cc578A603E905085';
     const [tokenName, setTokenName] = useState("Token");
     const [connectButtonName, setConnectButtonName] = useState("Connect");
     const [error, setError] = useState(null);

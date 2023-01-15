@@ -88,7 +88,6 @@ contract MyGov is ERC20 {
        require(!sender.tookFreeToken, "Already given token.");
        sender.tookFreeToken = true;  
        this.transfer(msg.sender, 1);
-       memberCount++;
        return true;  
    }
  
@@ -587,7 +586,7 @@ contract MyGov is ERC20 {
         address voter = msg.sender;
 
         if(proposalCount == 0){
-            
+
             if(balanceOf(voter) == amount && balanceOf(to) > 0){
                 memberCount--;
             }
