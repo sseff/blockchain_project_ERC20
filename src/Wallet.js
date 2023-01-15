@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react'
+import {React, useState, useEffect, View} from 'react'
 import {ethers} from 'ethers'
 import Interactions from './Interactions'
 import styles from './Wallet.module.css'
@@ -39,10 +39,11 @@ const Wallet = () => {
     //then it doesn't work again even if i refresh
     //MetaMask - RPC Error: Internal JSON-RPC error. {code: -32603, message: 'Internal JSON-RPC error.', data: {…}}
     const faucetHandler = async () => {
-        contract.faucet();
+        // contract.faucet().then(updateBalance());
+        await contract.faucet();
         //wait for 2 seconds and then update balance
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        updateBalance();
+        // await new Promise(resolve => setTimeout(resolve, 10000));
+        // updateBalance();
     }
 
     const accountChangedHandler = (newAddress) => {
@@ -75,7 +76,6 @@ const Wallet = () => {
         // await because this is a promise
         let balanceBigNumber = await contract.balanceOf(defaultAccount);
         let balanceNumber = balanceBigNumber.toNumber();
-        // tokenBalance = 1000;
         setBalance(balanceNumber);
         console.log("balanceNumber: ", balanceNumber);
     } 
@@ -90,11 +90,13 @@ const Wallet = () => {
             <button className={styles.button6} onClick={connectWalletHandler}>{connectButtonName}</button>
             <div className={styles.walletCard}>
                 <div>
-                    <h2>Address: {defaultAccount}</h2>
+                    <p>Address: {defaultAccount}</p>
                 </div>
                 <button className={styles.button6} onClick={faucetHandler}>Faucet</button>
+
                 <div>
                     <h2>{tokenName} Balance: {balance}</h2>
+                    <button className={styles.button6} onClick={updateBalance}>Refresh Balance</button>
                 </div>
                 <div>
                     {error}
