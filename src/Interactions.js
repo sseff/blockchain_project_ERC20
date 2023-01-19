@@ -55,8 +55,8 @@ const Interactions = (props) => {
 
     const delegateVoteToHandler = async (e) => {
         e.preventDefault();
-        let address = e.target.address.value;
-        let id = e.target.id.value;
+        let address = e.target.memberaddress.value;
+        let id = e.target.projectid.value;
 
         await props.contract.delegateVoteTo(address, id, glOverride);
     }
@@ -235,6 +235,8 @@ const Interactions = (props) => {
 
     return (
         <div className={styles.interactionsCard}>
+
+            <div class="column"></div>
             <form onSubmit={donateEtherHandler}>
                 <h3>Donate Ethers:</h3>   
                 <a>Ether Amount in Wei:</a>
@@ -307,10 +309,10 @@ const Interactions = (props) => {
             <form onSubmit={delegateVoteToHandler}>
                 <h3>Delegate Vote To:</h3>
                 <a>Member Address:</a>
-                <input type='text' id='address'/>
+                <input type='text' id='memberaddress'/>
                 <a><br></br></a>
                 <a>Project ID:</a>
-                <input type='number' id='id'/>
+                <input type='number' id='projectid'/>
                 <a><br></br></a>
                 <button type='submit' className={styles.button6}>Submit</button>
                 {/* <a>  response**</a> */}

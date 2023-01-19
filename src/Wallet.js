@@ -35,15 +35,8 @@ const Wallet = () => {
         }
     }
 
-    //i can click on the button only once
-    //then it doesn't work again even if i refresh
-    //MetaMask - RPC Error: Internal JSON-RPC error. {code: -32603, message: 'Internal JSON-RPC error.', data: {…}}
     const faucetHandler = async () => {
-        // contract.faucet().then(updateBalance());
-        await contract.faucet();
-        //wait for 2 seconds and then update balance
-        // await new Promise(resolve => setTimeout(resolve, 10000));
-        // updateBalance();
+        await contract.faucet({gasLimit:550000});
     }
 
     const accountChangedHandler = (newAddress) => {
